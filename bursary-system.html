@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Bursary & Fee Management Ledger | TechPal Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070F1E',
+                        brandNavy: '#0B192C',
+                        brandCard: '#1E293B',
+                        brandCyan: '#00D2FF',
+                        brandCyanHover: '#00B8E6',
+                        brandTeal: '#06B6D4'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Scroll Reveal Observer Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dynamic Cursor Glow Tracking */
+        .glow-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 210, 255, 0.18), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 3D Smooth Tilt Dynamics */
+        .tilt-card {
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* Pure CSS Organic Morphing SVG Blob Background */
+        @keyframes blob-morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+            50% { border-radius: 30% 60% 70% 30% / 50% 60% 30% 60%; transform: scale(1.08) rotate(180deg); }
+        }
+        .animate-blob {
+            animation: blob-morph 12s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-brandDark text-slate-100 font-sans antialiased selection:bg-brandCyan selection:text-brandDark overflow-x-hidden">
+
+    <!-- Header Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-brandDark/90 backdrop-blur-md z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 overflow-visible">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-24 w-auto object-contain scale-125 transform origin-left py-1">
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="index.html" class="hover:text-brandCyan transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Main Site</a>
+                <a href="#bursary-overview" class="hover:text-brandCyan transition">Overview</a>
+                <a href="#features-breakdown" class="hover:text-brandCyan transition">Modules</a>
+                <a href="#sales-impact" class="hover:text-brandCyan transition">Financial Impact</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20automate%20my%20school%20bursary%20and%20fee%20ledgers" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brandCyan/20 transition duration-200 inline-flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Request Bursary Demo</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 md:hidden">
+                <a href="index.html" class="bg-brandNavy border border-slate-700 text-brandCyan hover:text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </a>
+                <button id="menu-btn" class="text-slate-300 hover:text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brandNavy border-b border-slate-800 px-6 py-4 space-y-4">
+            <a href="#bursary-overview" class="block text-slate-300 hover:text-brandCyan">Overview</a>
+            <a href="#features-breakdown" class="block text-slate-300 hover:text-brandCyan">Modules</a>
+            <a href="#sales-impact" class="block text-slate-300 hover:text-brandCyan">Financial Impact</a>
+            <a href="https://wa.me/2348147115078" target="_blank" class="block text-center bg-brandCyan text-brandDark font-semibold py-2 rounded-lg">
+                <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp: 08147115078
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden bg-gradient-to-b from-brandDark via-brandNavy to-brandDark">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brandCyan/10 blur-[120px] rounded-full animate-blob pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="inline-block bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs sm:text-sm font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 backdrop-blur-md">
+                Zero Revenue Leakage & Real-Time Financial Control
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                Eliminate Cash Losses, Track Every Tuition Payment & <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandCyan to-teal-400">Automate Class Ledgers</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Take complete charge of your school's cash flow. TechPal's Automated Bursary Portal gives account officers, bursars, and proprietors instantaneous tracking over student balances, daily receipts, fee structures, and admissions.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20upgrade%20my%20school%20bursary%20system" target="_blank" class="w-full sm:w-auto bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold px-8 py-4 rounded-xl shadow-xl shadow-brandCyan/20 transition duration-200 flex items-center justify-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Automate Your Bursary Today</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Showcase Section -->
+    <section id="bursary-overview" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Engineered For Accuracy</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Inside The TechPal Bursary Portal</h2>
+                <p class="text-slate-300 mt-4">Designed for fast mobile and desktop navigation, enabling quick entries, instant receipt generation, and clear financial oversight.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-center">
+                <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-700 shadow-2xl reveal">
+                    <p class="text-xs font-semibold text-slate-400 mb-3 text-center uppercase">Daily Entry & Class Ledgers Dashboard</p>
+                    <img src="Inside bursary 1.jpg" alt="Bursary Portal Daily Entry and Class Ledgers" class="previewable-img rounded-xl border border-slate-800 w-full object-cover">
+                </div>
+
+                <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-700 shadow-2xl reveal">
+                    <p class="text-xs font-semibold text-slate-400 mb-3 text-center uppercase">Admissions & Fee Input Controls</p>
+                    <img src="Inside bursary2.jpg" alt="Bursary Admissions and Fee Input Setup" class="previewable-img rounded-xl border border-slate-800 w-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Modules Breakdown -->
+    <section id="features-breakdown" class="py-20 bg-brandNavy/60 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Comprehensive Accounting Suite</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Four Pillars of Financial Efficiency</h2>
+                <p class="text-slate-300 mt-4">Every tool needed to run a transparent and profitable school bursary department.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Module 1 -->
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition reveal">
+                    <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 text-2xl mb-6">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">1. Daily Entry & Instant Receipts</h3>
+                    <p class="text-slate-300 mt-3 leading-relaxed">
+                        Record daily tuition payments, registration fees, uniform purchases, and bus charges on the fly. Generates digital receipts instantly for parents via WhatsApp or email.
+                    </p>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition reveal">
+                    <div class="w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 text-2xl mb-6">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">2. Dynamic Class Ledgers</h3>
+                    <p class="text-slate-300 mt-3 leading-relaxed">
+                        Monitor live balances per class. See exactly who owes what, view detailed payment histories, and export class accounting reports in seconds.
+                    </p>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition reveal">
+                    <div class="w-14 h-14 bg-purple-500/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 text-2xl mb-6">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">3. Admissions & Reg ID Generator</h3>
+                    <p class="text-slate-300 mt-3 leading-relaxed">
+                        Register new students directly into the database. The system assigns standard, auto-generated Registration Numbers to prevent duplicate records.
+                    </p>
+                </div>
+
+                <!-- Module 4 -->
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition reveal">
+                    <div class="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center text-amber-400 text-2xl mb-6">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">4. Fee Structure Automation</h3>
+                    <p class="text-slate-300 mt-3 leading-relaxed">
+                        Easily configure default fees for different classes (e.g., Nursery vs. Primary vs. College). Update termly fees seamlessly across the entire institution.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sales & Financial Impact Section -->
+    <section id="sales-impact" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-6 space-y-6 reveal">
+                    <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Why School Owners Love This</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Guaranteed Return on Investment</h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        Manual account logs leave schools vulnerable to unrecorded payments, missing fees, and disputes with parents. TechPal's Bursary Portal turns financial risk into structured security.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-brandNavy border border-slate-800">
+                            <i class="fa-solid fa-shield-halved text-brandCyan text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Prevent Revenue Leakage</h4>
+                                <p class="text-sm text-slate-400">Every single payment is logged with a timestamp and audit trail, ensuring full accountability for every staff member.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-brandNavy border border-slate-800">
+                            <i class="fa-solid fa-lock text-brandCyan text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Seamless Result Portal Integration</h4>
+                                <p class="text-sm text-slate-400">Directly syncs with student result portals. Students with outstanding balances are automatically restricted from checking results until cleared.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 reveal">
+                    <div class="glow-card tilt-card bg-gradient-to-br from-brandNavy to-slate-900 p-8 rounded-2xl border border-brandCyan/30 shadow-2xl">
+                        <h3 class="text-2xl font-bold text-white mb-4">Transform Your School Accounts</h3>
+                        <p class="text-slate-300 text-sm mb-6">Get a tailored bursary system configured specifically for your school's classes, fee schedules, and receipt branding.</p>
+                        <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20a%20demo%20of%20the%20Bursary%20Ledger%20System" target="_blank" class="w-full bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold py-4 rounded-xl transition flex items-center justify-center gap-3 text-lg">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            <span>Speak With TechPal Engineers</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brandDark py-10 border-t border-slate-800 text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-12 w-auto object-contain">
+                <span>&copy; TechPal Solutions. All rights reserved.</span>
+            </div>
+            <div>
+                <p>Automated Bursary & Fee Management Ledger</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Image Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <button id="close-modal" class="absolute top-5 right-6 text-slate-300 hover:text-brandCyan text-4xl font-bold focus:outline-none transition">
+            &times;
+        </button>
+        <img id="modal-img" src="" alt="Enlarged Preview" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-slate-700">
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Navigation Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. Lightbox Image Viewer Modal
+        const imageModal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeModal = document.getElementById('close-modal');
+
+        document.querySelectorAll('.previewable-img').forEach(img => {
+            img.classList.add('cursor-pointer', 'hover:opacity-90', 'transition', 'hover:scale-[1.02]');
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                imageModal.classList.remove('hidden');
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            imageModal.classList.add('hidden');
+        });
+
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.classList.add('hidden');
+            }
+        });
+
+        // 3. Cursor Radial Glow Tracking Effect
+        document.querySelectorAll('.glow-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // 4. 3D Tilt Card Interaction
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 5. Scroll Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
+</body>
+</html>

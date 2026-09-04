@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart School Portal & Website Engine | TechPal Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070F1E',
+                        brandNavy: '#0B192C',
+                        brandCard: '#1E293B',
+                        brandCyan: '#00D2FF',
+                        brandCyanHover: '#00B8E6',
+                        brandTeal: '#06B6D4'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Scroll Reveal Observer Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dynamic Cursor Glow Tracking */
+        .glow-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 210, 255, 0.18), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 3D Smooth Tilt Dynamics */
+        .tilt-card {
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* Pure CSS Organic Morphing SVG Blob Background */
+        @keyframes blob-morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+            50% { border-radius: 30% 60% 70% 30% / 50% 60% 30% 60%; transform: scale(1.08) rotate(180deg); }
+        }
+        .animate-blob {
+            animation: blob-morph 12s ease-in-out infinite;
+        }
+
+        /* Skeleton Shimmer Loaders */
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+        .shimmer-loader::after {
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0));
+            animation: shimmer 2s infinite;
+            content: '';
+        }
+    </style>
+</head>
+<body class="bg-brandDark text-slate-100 font-sans antialiased selection:bg-brandCyan selection:text-brandDark overflow-x-hidden">
+
+    <!-- Header Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-brandDark/90 backdrop-blur-md z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 overflow-visible">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-24 w-auto object-contain scale-125 transform origin-left py-1">
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="index.html" class="hover:text-brandCyan transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Main Site</a>
+                <a href="#portal-hub" class="hover:text-brandCyan transition">Portal Hub</a>
+                <a href="#teacher-suite" class="hover:text-brandCyan transition">Result Engine</a>
+                <a href="#frontend-showcase" class="hover:text-brandCyan transition">Growth Websites</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20boost%20my%20school%20enrollment%20and%20automate%20my%20portal" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brandCyan/20 transition duration-200 inline-flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Boost Your School Admissions</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 md:hidden">
+                <a href="index.html" class="bg-brandNavy border border-slate-700 text-brandCyan hover:text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </a>
+                <button id="menu-btn" class="text-slate-300 hover:text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brandNavy border-b border-slate-800 px-6 py-4 space-y-4">
+            <a href="#portal-hub" class="block text-slate-300 hover:text-brandCyan">Portal Hub</a>
+            <a href="#teacher-suite" class="block text-slate-300 hover:text-brandCyan">Result Engine</a>
+            <a href="#frontend-showcase" class="block text-slate-300 hover:text-brandCyan">Growth Websites</a>
+            <a href="https://wa.me/2348147115078" target="_blank" class="block text-center bg-brandCyan text-brandDark font-semibold py-2 rounded-lg">
+                <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp: 08147115078
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Ambient Morphing Blob -->
+    <section class="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden bg-gradient-to-b from-brandDark via-brandNavy to-brandDark">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brandCyan/10 blur-[120px] rounded-full animate-blob pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="inline-block bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs sm:text-sm font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 backdrop-blur-md">
+                The Ultimate Growth & Automation Engine For Modern Schools
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                Attract More Parents, Skyrocket Enrollment & <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandCyan to-teal-400">Slash Weeks of Admin Work into Hours</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Stop losing prospective students to competing institutions. TechPal equips your school with a stunning, trust-building web presence that turns inquiring parents into registered students—paired with an automated portal that eliminates result processing headaches, protects your fee collection, and positions your school as a top-tier choice.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20upgrade%20my%20school%20website%20and%20portal" target="_blank" class="w-full sm:w-auto bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold px-8 py-4 rounded-xl shadow-xl shadow-brandCyan/20 transition duration-200 flex items-center justify-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Claim Your Free Demo & Consultation</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. Central Portal Hub Architecture -->
+    <section id="portal-hub" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 space-y-6 reveal">
+                    <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Zero Administrative Chaos</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Seamless Control for Every Department</h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        Replace messy paperwork, lost student records, and stressful end-of-term delays with a smooth, bulletproof digital ecosystem that impresses parents and keeps your entire staff organized.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="glow-card flex items-start gap-3 bg-brandNavy p-4 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-user-graduate text-brandCyan text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Student & Parent Access Portal</h4>
+                                <p class="text-sm text-slate-400">Give parents 24/7 peace of mind with instant access to online CBT exams, progress tracking, and official report cards right from their mobile phones.</p>
+                            </div>
+                        </div>
+
+                        <div class="glow-card flex items-start gap-3 bg-brandNavy p-4 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-chalkboard-user text-brandCyan text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Teacher Workspace & Exam Suite</h4>
+                                <p class="text-sm text-slate-400">Empower your teachers to set CBT exams, input scores effortlessly, and compile entire subject ledgers in minutes without math errors.</p>
+                            </div>
+                        </div>
+
+                        <div class="glow-card flex items-start gap-3 bg-brandNavy p-4 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-vault text-brandCyan text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Bursary & Financial Protection Module</h4>
+                                <p class="text-sm text-slate-400">Take complete control of school income with encrypted fee ledgers, uniform/book sales tracking, and zero leakages in revenue.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex justify-center reveal">
+                    <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-700 shadow-2xl max-w-sm sm:max-w-md w-full">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Live System Preview: Premium Gateway Layout</p>
+                        <img src="Gloryland’s portal image.jpg" alt="Smart School Portal Gateway" class="previewable-img rounded-xl border border-slate-800 w-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Teacher Suite & Result Processing Engine -->
+    <section id="teacher-suite" class="py-20 bg-brandNavy/60 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Massive Administrative Relief</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Turn 3 Weeks of Report Card Stress into 2 Hours of Effortless Clicks</h2>
+                <p class="text-slate-300 mt-4">
+                    Why waste weeks calculating total scores, fighting with manual errors, and staying up late before graduation day? Our automated result engine does all the heavy lifting instantly so your staff can focus on quality teaching.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Dashboard & Navigation Visuals -->
+                <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 reveal">
+                    <div class="glow-card tilt-card bg-brandDark p-4 rounded-2xl border border-slate-800">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Intuitive Staff Workflow</p>
+                        <img src="Teacher nav bar extended.jpg" alt="Teacher Navigation Menu Drawer" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    </div>
+                    <div class="glow-card tilt-card bg-brandDark p-4 rounded-2xl border border-slate-800">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Real-Time Class Performance Analytics</p>
+                        <img src="Teacher dashboard img.jpg" alt="Teacher Class Dashboard Statistics" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    </div>
+                </div>
+
+                <!-- High-Value Features for School Owners -->
+                <div class="lg:col-span-6 space-y-5 reveal">
+                    <div class="glow-card tilt-card bg-brandDark p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-trophy text-brandCyan mr-2"></i> Instant Error-Free Class Rankings</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Eliminate teacher math errors and parent disputes forever. The portal automatically aggregates continuous assessments, calculates averages, and assigns exact student positions (1st, 2nd, 3rd) with 100% mathematical precision.
+                        </p>
+                    </div>
+
+                    <div class="glow-card tilt-card bg-brandDark p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-file-invoice text-brandCyan mr-2"></i> Professional, Branded Result Sheets in 1-Click</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Delight parents with high-grade, beautifully formatted digital result cards that showcase your school’s crest, official stamps, and high academic standards—ready to print or download instantly.
+                        </p>
+                    </div>
+
+                    <div class="glow-card tilt-card bg-brandDark p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-brain text-brandCyan mr-2"></i> Smart AI-Assisted Trait & Remarks Generator</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Say goodbye to generic, repetitive comments. Teachers simply grade student traits (neatness, handwriting, attentiveness), and the system auto-generates personalized, professional teacher and principal remarks.
+                        </p>
+                    </div>
+
+                    <div class="glow-card tilt-card bg-brandDark p-6 rounded-2xl border border-slate-800 border-l-4 border-l-amber-500">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-lock text-amber-400 mr-2"></i> Automatic Debt Recovery & Fee Lock System</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Never chase defaulting parents again. The portal automatically blocks result access for students with unpaid fees until cleared by bursary—ensuring 100% on-time tuition collection every single term.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Public School Website Showcase -->
+    <section id="frontend-showcase" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Convert Browsing Parents Into Registered Students</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">A Prestigious Web Presence That Justifies Premium Fees</h2>
+                <p class="text-slate-300 mt-4">
+                    Before parents ever set foot in your school, they check your website. A cheap or outdated site makes them hesitate—while a world-class, responsive TechPal website builds instant trust, proves your academic superiority, and fills your classrooms every new session.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-5 hover:border-brandCyan/40 transition reveal">
+                    <img src="Chosen homepage1.jpg" alt="Chosen Generation Smart School Landing" class="previewable-img rounded-xl w-full h-80 object-cover object-top border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mt-4">First Impressions That Win Parent Trust</h3>
+                    <p class="text-slate-400 text-sm mt-2">Captivate visiting parents with high-impact hero designs, clear educational values, and bold call-to-action buttons that drive immediate school tour inquiries.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-5 hover:border-brandCyan/40 transition reveal">
+                    <img src="Gloryland homepage1.jpg" alt="Gloryland Foundation Academy E-Learning" class="previewable-img rounded-xl w-full h-80 object-cover object-bottom border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mt-4">Showcase Modern Tech & ICT Superiority</h3>
+                    <p class="text-slate-400 text-sm mt-2">Prove to parents that your school prepares children for the future with interactive showcases of your computer labs, digital libraries, and e-learning facilities.</p>
+                </div>
+
+                <!-- Card 3 -->
+<div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-5 hover:border-brandCyan/40 transition reveal">
+    <img src="Gloryland homepage2.jpg" alt="Gloryland Science Laboratory" class="previewable-img rounded-xl w-full h-80 object-cover object-bottom border border-slate-700">
+    <h3 class="text-lg font-bold text-white mt-4">Highlight Practical STEM & Academic Rigor</h3>
+    <p class="text-slate-400 text-sm mt-2">Display well-equipped science laboratories, practical learning sessions, and vibrant classroom activities that reassure parents of high educational quality.</p>
+</div>
+
+                <!-- Card 4 -->
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-5 hover:border-brandCyan/40 transition reveal">
+                    <img src="Chosen homepage2.jpg" alt="Chosen Generation Academic Statistics" class="previewable-img rounded-xl w-full h-80 object-cover object-top border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mt-4">Unshakable Proof of Success & Excellence</h3>
+                    <p class="text-slate-400 text-sm mt-2">Overwhelm parent hesitation with prominent statistics—highlighting 100% exam success rates, qualified teachers, and thriving student growth.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-5 hover:border-brandCyan/40 transition md:col-span-2 lg:col-span-2 reveal">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                        <img src="Chosen homepage3.jpg" alt="Chosen Generation Contact Form" class="previewable-img rounded-xl h-80 w-full object-cover object-top border border-slate-700">
+                        <div>
+                            <span class="text-xs text-brandCyan font-semibold uppercase">Instant Admission Pipeline</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Turn Online Visits Into Paid Admissions</h3>
+                            <p class="text-slate-300 text-sm mt-3">Integrated online inquiry forms and WhatsApp routing capture prospective parent inquiries instantly, delivering hot leads directly to your administrative phone or email 24/7.</p>
+                            <div class="mt-6">
+                                <a href="https://wa.me/2348147115078?text=I%20want%20to%20build%20a%20high-converting%20school%20website%20and%20portal" target="_blank" class="inline-flex items-center gap-2 text-sm bg-brandCyan text-brandDark font-extrabold px-5 py-3 rounded-lg hover:bg-brandCyanHover transition shadow-lg">
+                                    <span>Transform Your School's Website</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call To Action -->
+    <section class="py-20 bg-gradient-to-r from-brandNavy via-brandDark to-brandNavy border-t border-slate-800 text-center">
+        <div class="max-w-4xl mx-auto px-4 reveal">
+            <span class="text-brandCyan font-bold uppercase tracking-wider text-sm">Don't Get Left Behind</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2">Ready to Boost Your School's Prestige, Admissions & Financial Control?</h2>
+            <p class="mt-4 text-slate-300 text-lg">
+                Let TechPal engineer a custom website and smart administration portal tailored specifically to your institution. Save weeks of administrative stress, guarantee fee collection, and watch your enrollment grow every term.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20a%20live%20demo%20to%20see%20how%20this%20will%20increase%20my%20school%20enrollment" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold px-8 py-4 rounded-xl shadow-xl transition flex items-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Get a Free Live Demo & Consultation</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brandDark py-10 border-t border-slate-800 text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-12 w-auto object-contain">
+                <span>&copy; TechPal Solutions. All rights reserved.</span>
+            </div>
+            <div>
+                <p>Smart School Administration & Enrollment Growth Engine</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Image Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <button id="close-modal" class="absolute top-5 right-6 text-slate-300 hover:text-brandCyan text-4xl font-bold focus:outline-none transition">
+            &times;
+        </button>
+        <img id="modal-img" src="" alt="Enlarged Preview" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-slate-700">
+    </div>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // 1. Navigation Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. Lightbox Image Viewer Modal
+        const imageModal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeModal = document.getElementById('close-modal');
+
+        document.querySelectorAll('.previewable-img').forEach(img => {
+            img.classList.add('cursor-pointer', 'hover:opacity-90', 'transition', 'hover:scale-[1.02]');
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                imageModal.classList.remove('hidden');
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            imageModal.classList.add('hidden');
+        });
+
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
+                imageModal.classList.add('hidden');
+            }
+        });
+
+        // 3. Cursor Radial Glow Tracking Effect
+        document.querySelectorAll('.glow-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // 4. 3D Tilt Card Interaction
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 5. Scroll-Triggered Reveal Effect via Intersection Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
+</body>
+</html>

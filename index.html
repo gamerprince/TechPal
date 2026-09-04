@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPal | Empowering Tomorrow's Innovation, Today</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070F1E',
+                        brandNavy: '#0B192C',
+                        brandCard: '#1E293B',
+                        brandCyan: '#00D2FF',
+                        brandCyanHover: '#00B8E6',
+                        brandTeal: '#06B6D4'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Scroll Reveal Observer Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dynamic Cursor Glow Tracking */
+        .glow-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 210, 255, 0.18), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 3D Smooth Tilt Dynamics */
+        .tilt-card {
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* Pure CSS Organic Morphing SVG Blob Background */
+        @keyframes blob-morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+            50% { border-radius: 30% 60% 70% 30% / 50% 60% 30% 60%; transform: scale(1.08) rotate(180deg); }
+        }
+        .animate-blob {
+            animation: blob-morph 12s ease-in-out infinite;
+        }
+
+        /* Skeleton Shimmer Loaders */
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+        .shimmer-loader::after {
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0));
+            animation: shimmer 2s infinite;
+            content: '';
+        }
+    </style>
+</head>
+<body class="bg-brandDark text-slate-100 font-sans antialiased selection:bg-brandCyan selection:text-brandDark overflow-x-hidden">
+
+    <nav class="fixed top-0 left-0 w-full bg-brandDark/90 backdrop-blur-md z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-24 w-auto object-contain scale-125 origin-left py-1">
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="#services" class="hover:text-brandCyan transition">Services</a>
+                <a href="#portfolio" class="hover:text-brandCyan transition">Portfolio & Projects</a>
+                <a href="#academy" class="hover:text-brandCyan transition">Tech Academy</a>
+                <a href="#about" class="hover:text-brandCyan transition">About Us</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="https://wa.me/2348147115078" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brandCyan/20 transition duration-200 inline-flex items-center gap-2">
+                    <i class="fa-brands font-bold fa-whatsapp text-lg"></i>
+                    <span>Contact Us</span>
+                </a>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brandNavy border-b border-slate-800 px-6 py-4 space-y-4">
+            <a href="#services" class="block text-slate-300 hover:text-brandCyan">Services</a>
+            <a href="#portfolio" class="block text-slate-300 hover:text-brandCyan">Portfolio & Projects</a>
+            <a href="#academy" class="block text-slate-300 hover:text-brandCyan">Tech Academy</a>
+            <a href="#about" class="block text-slate-300 hover:text-brandCyan">About Us</a>
+            <a href="https://wa.me/2348147115078" target="_blank" class="block text-center bg-brandCyan text-brandDark font-semibold py-2 rounded-lg">
+                <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp: 08147115078
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Ambient Morphing Blob -->
+    <section class="relative pt-36 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-gradient-to-b from-brandDark via-brandNavy to-brandDark">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brandCyan/10 blur-[120px] rounded-full animate-blob pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs sm:text-sm font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
+                Your Technology Companion
+            </span>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                Empowering Tomorrow's <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandCyan to-teal-400">Innovation, Today</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                Enterprise Web Solutions & Advanced Tech Training. We engineer high-performance web systems and empower the next generation of tech innovators.
+            </p>
+            
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078" target="_blank" class="w-full sm:w-auto bg-brandCyan hover:bg-brandCyanHover text-brandDark font-bold px-8 py-4 rounded-xl shadow-xl shadow-brandCyan/20 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>contact us on whatsapp</span>
+                </a>
+                <a href="#portfolio" class="w-full sm:w-auto bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-8 py-4 rounded-xl transition flex items-center justify-center gap-2">
+                    <span>Tap to view our works</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-brandDark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white">Our Core Expertise</h2>
+                <p class="mt-3 text-slate-400">Comprehensive technology solutions designed for scale and impact.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition duration-300 reveal">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-brandCyan/10 rounded-xl flex items-center justify-center text-brandCyan text-2xl">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">1. Enterprise Web & App Development</h3>
+                    </div>
+                    <ul class="space-y-4 text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-graduation-cap text-brandCyan mt-1"></i>
+                            <div>
+                                <strong class="text-white block">Smart School Portals</strong>
+                                Admissions, student records, portal authentication, and class monitoring in one place.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-calculator text-brandCyan mt-1"></i>
+                            <div>
+                                <strong class="text-white block">Automated Ledger & Bursary Systems</strong>
+                                Secure fee management, custom accounting, and real-time financial tracking.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-laptop-code text-brandCyan mt-1"></i>
+                            <div>
+                                <strong class="text-white block">CBT Exam & Result Platforms</strong>
+                                Fast, secure automated testing and automated result processing/grading.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-mobile-screen text-brandCyan mt-1"></i>
+                            <div>
+                                <strong class="text-white block">Custom Web & Mobile Apps</strong>
+                                Tailored digital solutions built specifically for your custom business requirements.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition duration-300 reveal" id="academy">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-brandCyan/10 rounded-xl flex items-center justify-center text-brandCyan text-2xl">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">2. Tech Academy & Hardware Sourcing</h3>
+                    </div>
+                    <ul class="space-y-4 text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-terminal text-brandCyan mt-1"></i>
+                            <div>
+                                <strong class="text-white block">Coding & Software Dev Training</strong>
+                                Hands-on practical lessons in modern languages and full-stack web technologies.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-robot text-brandCyan mt-1"></i>
+                            <div>
+                                <strong class="text-white block">Robotics Programs</strong>
+                                Practical STEM learning and hardware automation for youth and tech enthusiasts.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-boxes-packing text-brandCyan mt-1"></i>
+                            <div>
+                                <strong class="text-white block">Tech Hardware Procurement</strong>
+                                Procurement of premium business laptops, electronics, and smart hardware appliances.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-brandNavy/50 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 reveal">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Featured Projects</h2>
+                    <p class="mt-2 text-slate-400">A glimpse into the systems and web applications engineered by TechPal.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl overflow-hidden hover:border-brandCyan/50 transition duration-300 flex flex-col reveal">
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-brandCyan uppercase tracking-wider">Web Portal</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Smart School Administration Portal</h3>
+                            <p class="text-slate-400 text-sm mt-3">Full-stack educational management system featuring student records, secure logins, and class monitoring.</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                            <span>HTML5 / CSS / Firebase</span>
+                            <a href="smart-school.html" class="text-brandCyan font-semibold hover:underline">Tap to View Details  →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl overflow-hidden hover:border-brandCyan/50 transition duration-300 flex flex-col reveal">
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-brandCyan uppercase tracking-wider">Education Tech</span>
+                            <h3 class="text-xl font-bold text-white mt-1">CBT Examination & Result Engine</h3>
+                            <p class="text-slate-400 text-sm mt-3">Automated Computer-Based Testing platform supporting instant grading, timer controls, and result processing.</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                            <span>JavaScript / Firestore</span>
+                            <a href="cbt-exam-engine.html" class="text-brandCyan font-semibold hover:underline">Tap to View Details  →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl overflow-hidden hover:border-brandCyan/50 transition duration-300 flex flex-col reveal">
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-brandCyan uppercase tracking-wider">Finance & Ledger</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Automated Bursary Ledger System</h3>
+                            <p class="text-slate-400 text-sm mt-3">Tailored ledger application designed to track school payments, fee balances, and generate transaction reports.</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                            <span>Tailwind / Web Stack</span>
+                            <a href="bursary-system.html" class="text-brandCyan font-semibold hover:underline">Tap to View Details  →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glow-card tilt-card bg-brandDark border border-slate-800 rounded-2xl overflow-hidden hover:border-brandCyan/50 transition duration-300 flex flex-col reveal">
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-brandCyan uppercase tracking-wider">Inventory & Retail</span>
+                            <h3 class="text-1xl font-bold text-white mt-1">Smart Stock & Inventory Ledger System</h3>
+                            <p class="text-slate-400 text-sm mt-3">All-in-one stock management portal for schools (books & uniforms) and retail/wholesale businesses to track quantities, sales, and profit insights.</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                            <span>Tailwind / Firestore Analytics</span>
+                            <a href="stock-inventory.html" class="text-brandCyan font-semibold hover:underline">Tap to View Details  →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-brandNavy via-brandDark to-brandNavy border-t border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 text-center reveal">
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white">Ready to start your project?</h2>
+            <p class="mt-4 text-slate-300 text-lg">Whether you need custom web development or tech training, let's turn your ideas into reality.</p>
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-bold px-8 py-4 rounded-xl shadow-lg transition flex items-center gap-3">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Call / WhatsApp: 08147115078</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brandDark py-10 border-t border-slate-800 text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-20 w-auto object-contain">
+                <span>&copy; TechPal. All rights reserved.</span>
+            </div>
+            <div>
+                <p>Tech Made Easy | Your Technology Companion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Native JavaScript Interactions -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. Cursor Radial Glow Tracking Effect
+        document.querySelectorAll('.glow-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // 3. 3D Tilt Card Interaction
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 4. Scroll-Triggered Reveal Effect via Intersection Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
+</body>
+</html>

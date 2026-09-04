@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Examination & Automated Result Engine | TechPal Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070F1E',
+                        brandNavy: '#0B192C',
+                        brandCard: '#1E293B',
+                        brandCyan: '#00D2FF',
+                        brandCyanHover: '#00B8E6',
+                        brandTeal: '#06B6D4'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Scroll Reveal Observer Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dynamic Cursor Glow Tracking */
+        .glow-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 210, 255, 0.18), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 3D Smooth Tilt Dynamics */
+        .tilt-card {
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* Pure CSS Organic Morphing SVG Blob Background */
+        @keyframes blob-morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+            50% { border-radius: 30% 60% 70% 30% / 50% 60% 30% 60%; transform: scale(1.08) rotate(180deg); }
+        }
+        .animate-blob {
+            animation: blob-morph 12s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-brandDark text-slate-100 font-sans antialiased selection:bg-brandCyan selection:text-brandDark overflow-x-hidden">
+
+    <!-- Header Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-brandDark/90 backdrop-blur-md z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 overflow-visible">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-24 w-auto object-contain scale-125 transform origin-left py-1">
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="index.html" class="hover:text-brandCyan transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Main Site</a>
+                <a href="#student-experience" class="hover:text-brandCyan transition">CBT Testing Interface</a>
+                <a href="#teacher-suite" class="hover:text-brandCyan transition">Exam & Attempts Suite</a>
+                <a href="#result-engine" class="hover:text-brandCyan transition">Result Processing</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20implement%20the%20CBT%20Exam%20and%20Automated%20Result%20Engine%20for%20my%20school" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brandCyan/20 transition duration-200 inline-flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Deploy CBT Platform</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 md:hidden">
+                <a href="index.html" class="bg-brandNavy border border-slate-700 text-brandCyan hover:text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </a>
+                <button id="menu-btn" class="text-slate-300 hover:text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brandNavy border-b border-slate-800 px-6 py-4 space-y-4">
+            <a href="#student-experience" class="block text-slate-300 hover:text-brandCyan">CBT Testing Interface</a>
+            <a href="#teacher-suite" class="block text-slate-300 hover:text-brandCyan">Exam & Attempts Suite</a>
+            <a href="#result-engine" class="block text-slate-300 hover:text-brandCyan">Result Processing</a>
+            <a href="https://wa.me/2348147115078" target="_blank" class="block text-center bg-brandCyan text-brandDark font-semibold py-2 rounded-lg">
+                <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp: 08147115078
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden bg-gradient-to-b from-brandDark via-brandNavy to-brandDark">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brandCyan/10 blur-[120px] rounded-full animate-blob pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="inline-block bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs sm:text-sm font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 backdrop-blur-md">
+                100% Automated Testing & Grading Engine
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                Eliminate Manual Exam Marking & <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandCyan to-teal-400">Publish Error-Free Results Instantly</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Empower your teachers with a seamless Computer-Based Testing portal that conducts exams on mobile devices, tablets, or PCs. Grade tests automatically, track student score analytics in real time, and lock report cards for unpaid tuition fee compliance.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20a%20live%20demo%20of%20your%20CBT%20Exam%20and%20Result%20Portal" target="_blank" class="w-full sm:w-auto bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold px-8 py-4 rounded-xl shadow-xl shadow-brandCyan/20 transition duration-200 flex items-center justify-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Request Live Portal Demo</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. Student CBT Testing Interface -->
+    <section id="student-experience" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Distraction-Free Student Experience</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Clean, Mobile-Optimized Testing Engine</h2>
+                <p class="text-slate-300 mt-4">
+                    Students take examinations smoothly on any smartphone, tablet, or desktop computer. Lightweight, rapid loading, and designed to eliminate exam stress and technical glitches.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Mobile Screenshots Display -->
+                <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 reveal">
+                    <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-800">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Exam Questions Layout 1</p>
+                        <img src="Cbt exam sample1.jpg" alt="Student Exam Portal Questions 1 & 2" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    </div>
+                    <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-800">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Exam Questions Layout 2</p>
+                        <img src="Cbt exam sample2.jpg" alt="Student Exam Portal Questions 3 & 4" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Feature Benefits -->
+                <div class="lg:col-span-6 space-y-5 reveal">
+                    <div class="glow-card tilt-card bg-brandNavy p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-mobile-screen-button text-brandCyan mr-2"></i> Zero Hardware Investment Required</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            No need for expensive dedicated computer labs! The portal works flawlessly on low-cost smartphones and tablets—allowing schools of any size to conduct CBT exams effortlessly.
+                        </p>
+                    </div>
+
+                    <div class="glow-card tilt-card bg-brandNavy p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-cloud-arrow-up text-brandCyan mr-2"></i> Real-Time Answer Auto-Saving</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Never worry about lost progress from phone batteries dying or network drops. Every option selected is immediately saved to the secure cloud in real-time.
+                        </p>
+                    </div>
+
+                    <div class="glow-card tilt-card bg-brandNavy p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-shield-cat text-brandCyan mr-2"></i> Anti-Cheat & Malpractice Safeguards</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Question and option shuffling randomized per student prevents peeking and copying, while background attempt trackers flag unnatural submission times.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Teacher Management & Attempt Suite -->
+    <section id="teacher-suite" class="py-20 bg-brandNavy/60 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Effortless Academic Control</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Publish Exams in 1-Click & View Live Student Analytics</h2>
+                <p class="text-slate-300 mt-4">
+                    Teachers can draft, review, publish exams, and watch incoming submissions in real-time. Grades are computed automatically with total score breakdowns and downloadable CSV reports.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Management & Analytics Screenshots -->
+                <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 reveal">
+                    <div class="glow-card tilt-card bg-brandDark p-4 rounded-2xl border border-slate-800">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Exam Creation & Draft Control</p>
+                        <img src="View attempts img.jpg" alt="Teacher Exam Publishing Controls" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    </div>
+                    <div class="glow-card tilt-card bg-brandDark p-4 rounded-2xl border border-slate-800">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Live Score Analytics & Submissions</p>
+                        <img src="Exam attempt img.jpg" alt="Teacher Student Exam Attempts and Percentages" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Strategic Selling Points -->
+                <div class="lg:col-span-6 space-y-5 reveal">
+                    <div class="glow-card tilt-card bg-brandDark p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-file-circle-check text-brandCyan mr-2"></i> One-Click Publish & Status Toggles</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Draft exam papers safely ahead of time. Switch exam status from <span class="text-amber-400 font-semibold">Draft</span> to <span class="text-emerald-400 font-semibold">Published</span> instantly when exam time begins, and lock papers as soon as time expires.
+                        </p>
+                    </div>
+
+                    <div class="glow-card tilt-card bg-brandDark p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-chart-pie text-brandCyan mr-2"></i> Instant Auto-Grading & Percentage Scoring</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            No manual red-ink marking! The system instantly scores submissions (e.g. 43/60 = 72%), timestamps exact submission time, and compiles accurate class grade summaries automatically.
+                        </p>
+                    </div>
+
+                    <div class="glow-card tilt-card bg-brandDark p-6 rounded-2xl border border-slate-800">
+                        <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-file-csv text-brandCyan mr-2"></i> 1-Click CSV & Excel Export</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Need offline records or custom spreadsheet backups? Export the entire class CBT attempt ledger with one click for administrative auditing or offline storage.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Automated Result Engine & Bursary Fee Lock -->
+    <section id="result-engine" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 space-y-6 reveal">
+                    <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Termly Result Processing</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Seamless Class Score Aggregation & Debt Lock</h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        Effortlessly filter by class (e.g. Basic 2), term, and academic session. The system pulls CBT exam marks together with Continuous Assessment scores to produce complete termly report cards.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="glow-card flex items-start gap-3 bg-brandNavy p-4 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-filter text-brandCyan text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Smart Class & Term Selector</h4>
+                                <p class="text-sm text-slate-400">Load entire classroom subject ledgers in seconds across 1st, 2nd, or 3rd Term sessions without confusion.</p>
+                            </div>
+                        </div>
+
+                        <div class="glow-card flex items-start gap-3 bg-brandNavy p-4 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-user-check text-brandCyan text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Automated Fee Compliance Guard</h4>
+                                <p class="text-sm text-slate-400">The platform cross-checks student bursary status (<span class="text-emerald-400 font-semibold">CLEARED</span> vs <span class="text-rose-400 font-semibold">DEBTOR</span>). Unpaid fee report cards are automatically locked until bursary clears them.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex justify-center reveal">
+                    <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-700 shadow-2xl max-w-sm sm:max-w-md w-full">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Result Processing & Fee Clearance View</p>
+                        <img src="Process result img.jpg" alt="Result Processing and Fee Clearance Interface" class="previewable-img rounded-xl border border-slate-800 w-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call To Action -->
+    <section class="py-20 bg-gradient-to-r from-brandNavy via-brandDark to-brandNavy border-t border-slate-800 text-center">
+        <div class="max-w-4xl mx-auto px-4 reveal">
+            <span class="text-brandCyan font-bold uppercase tracking-wider text-sm">Automate Your School's Assessment</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2">Ready to Upgrade to Fast, Error-Free CBT Exams & Automated Results?</h2>
+            <p class="mt-4 text-slate-300 text-lg">
+                Let TechPal setup a dedicated CBT & Result Engine tailored to your school's curriculum and structure. Save hundreds of teacher working hours every single term.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20get%20started%20with%20the%20CBT%20Exam%20and%20Result%20Engine" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold px-8 py-4 rounded-xl shadow-xl transition flex items-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Get Started Today via WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brandDark py-10 border-t border-slate-800 text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-12 w-auto object-contain">
+                <span>&copy; TechPal Solutions. All rights reserved.</span>
+            </div>
+            <div>
+                <p>Automated CBT Examination & Result Engine</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Image Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <button id="close-modal" class="absolute top-5 right-6 text-slate-300 hover:text-brandCyan text-4xl font-bold focus:outline-none transition">
+            &times;
+        </button>
+        <img id="modal-img" src="" alt="Enlarged Preview" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-slate-700">
+    </div>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // 1. Navigation Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. Lightbox Image Viewer Modal
+        const imageModal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeModal = document.getElementById('close-modal');
+
+        document.querySelectorAll('.previewable-img').forEach(img => {
+            img.classList.add('cursor-pointer', 'hover:opacity-90', 'transition', 'hover:scale-[1.02]');
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                imageModal.classList.remove('hidden');
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            imageModal.classList.add('hidden');
+        });
+
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
+                imageModal.classList.add('hidden');
+            }
+        });
+
+        // 3. Cursor Radial Glow Tracking Effect
+        document.querySelectorAll('.glow-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // 4. 3D Tilt Card Interaction
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 5. Scroll-Triggered Reveal Effect
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
+</body>
+</html>

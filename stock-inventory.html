@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Stock & Inventory Ledger System | TechPal Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070F1E',
+                        brandNavy: '#0B192C',
+                        brandCard: '#1E293B',
+                        brandCyan: '#00D2FF',
+                        brandCyanHover: '#00B8E6',
+                        brandTeal: '#06B6D4'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glow-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 210, 255, 0.18), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+
+        .tilt-card {
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes blob-morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1) rotate(0deg); }
+            50% { border-radius: 30% 60% 70% 30% / 50% 60% 30% 60%; transform: scale(1.08) rotate(180deg); }
+        }
+        .animate-blob {
+            animation: blob-morph 12s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-brandDark text-slate-100 font-sans antialiased selection:bg-brandCyan selection:text-brandDark overflow-x-hidden">
+
+    <!-- Header Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-brandDark/90 backdrop-blur-md z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 overflow-visible">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-24 w-auto object-contain scale-125 transform origin-left py-1">
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="index.html" class="hover:text-brandCyan transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Main Site</a>
+                <a href="#dual-use" class="hover:text-brandCyan transition">Solutions</a>
+                <a href="#portal-showcase" class="hover:text-brandCyan transition">System Preview</a>
+                <a href="#analytics-section" class="hover:text-brandCyan transition">Visual Analytics</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20automate%20my%20stock%20and%20inventory%20management" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brandCyan/20 transition duration-200 inline-flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Get Inventory Portal</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 md:hidden">
+                <a href="index.html" class="bg-brandNavy border border-slate-700 text-brandCyan hover:text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </a>
+                <button id="menu-btn" class="text-slate-300 hover:text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brandNavy border-b border-slate-800 px-6 py-4 space-y-4">
+            <a href="#dual-use" class="block text-slate-300 hover:text-brandCyan">Solutions</a>
+            <a href="#portal-showcase" class="block text-slate-300 hover:text-brandCyan">System Preview</a>
+            <a href="#analytics-section" class="block text-slate-300 hover:text-brandCyan">Visual Analytics</a>
+            <a href="https://wa.me/2348147115078" target="_blank" class="block text-center bg-brandCyan text-brandDark font-semibold py-2 rounded-lg">
+                <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp: 08147115078
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden bg-gradient-to-b from-brandDark via-brandNavy to-brandDark">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brandCyan/10 blur-[120px] rounded-full animate-blob pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="inline-block bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs sm:text-sm font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 backdrop-blur-md">
+                Complete Inventory Control & Business Intelligence
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                Stop Unaccounted Losses, Track Every Item & <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandCyan to-teal-400">Maximize Daily Store Profitability</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Whether you run a school store (books, uniforms, tuck shop) or a bustling retail/wholesale business (provisions, electronics, hardware), TechPal's Smart Stock Portal gives you real-time tracking, fast-mover insights, and low-stock alerts.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20request%20a%20demo%20for%20the%20Stock%20and%20Inventory%20System" target="_blank" class="w-full sm:w-auto bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold px-8 py-4 rounded-xl shadow-xl shadow-brandCyan/20 transition duration-200 flex items-center justify-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Request Inventory System Demo</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dual Target Audience Section -->
+    <section id="dual-use" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Tailored For Your Business Model</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Built for School Owners & Market Retailers</h2>
+                <p class="text-slate-300 mt-4">One versatile inventory platform customized to solve specific stock control challenges across education and commerce.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Audience 1: School Owners -->
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition reveal">
+                    <div class="w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center text-brandCyan text-2xl mb-6">
+                        <i class="fa-solid fa-school"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">For School Owners & Administrators</h3>
+                    <p class="text-slate-300 mt-3 text-sm leading-relaxed mb-6">
+                        Eliminate stock leakage in your school store, bookshop, uniform depot, and cafeteria. Ensure every book issued and uniform sold is logged accurately.
+                    </p>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brandCyan"></i> Track text books, exercise books & uniform sizes</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brandCyan"></i> Prevent unrecorded sales and tuck shop leakages</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brandCyan"></i> Instant alerts before student supplies run out</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brandCyan"></i> Seamless integration with Bursary fee clearance</li>
+                    </ul>
+                </div>
+
+                <!-- Audience 2: Retailers & Market Sellers -->
+                <div class="glow-card tilt-card bg-brandNavy border border-slate-800 rounded-2xl p-8 hover:border-brandCyan/40 transition reveal">
+                    <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 text-2xl mb-6">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">For Market Sellers, Wholesalers & Retailers</h3>
+                    <p class="text-slate-300 mt-3 text-sm leading-relaxed mb-6">
+                        Designed for provision stores, clothing boutiques, electronics outlets, and hardware distributors looking to monitor stock on hand and gross margin performance.
+                    </p>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Track opening stock vs. received batch deliveries</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Real-time automated revenue and target percentages</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Categorized tracking (Provisions, Clothing, Hardware, etc.)</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400"></i> Identify fast-moving goods to optimize stock purchases</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Interface Showcase -->
+    <section id="portal-showcase" class="py-20 bg-brandNavy/60 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Live System Interface</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Powerful Stock & Sales Management</h2>
+                <p class="text-slate-300 mt-4">Clean, mobile-responsive dashboard designed for rapid daily stock entries, instant updates, and item lookup.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Screen 1 -->
+                <div class="glow-card tilt-card bg-brandDark p-4 rounded-2xl border border-slate-800 reveal">
+                    <p class="text-xs font-semibold text-slate-400 mb-3 text-center uppercase">Store Overview & Key Metrics</p>
+                    <img src="Stock dashboard1.png" alt="Provision Store Inventory Dashboard" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    <p class="text-xs text-slate-400 mt-3 text-center">Monitor total unique items, stock in hand, low stock warnings, and total sales logged.</p>
+                </div>
+
+                <!-- Screen 2 -->
+                <div class="glow-card tilt-card bg-brandDark p-4 rounded-2xl border border-slate-800 reveal">
+                    <p class="text-xs font-semibold text-slate-400 mb-3 text-center uppercase">Item & Category Registration</p>
+                    <img src="Stock dashboard2.jpg" alt="Stock Name Register Screen" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    <p class="text-xs text-slate-400 mt-3 text-center">Define new items, sizes, classes, categories, and default selling prices seamlessly.</p>
+                </div>
+
+                <!-- Screen 3 -->
+                <div class="glow-card tilt-card bg-brandDark p-4 rounded-2xl border border-slate-800 reveal">
+                    <p class="text-xs font-semibold text-slate-400 mb-3 text-center uppercase">Live Inventory Ledger Table</p>
+                    <img src="Stock dashboard 2.png" alt="Opening Stock and Quantity Ledger Table" class="previewable-img rounded-xl border border-slate-700 w-full object-cover">
+                    <p class="text-xs text-slate-400 mt-3 text-center">Track opening stock, received quantities (+), sold units (-), and current quantity at hand.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics & Intelligence Section -->
+    <section id="analytics-section" class="py-20 bg-brandDark border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-6 space-y-6 reveal">
+                    <span class="text-brandCyan font-semibold text-sm uppercase tracking-wider">Business Intelligence Engine</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Smart Advisory & Visual Sales Charts</h2>
+                    <p class="text-slate-300 leading-relaxed">
+                        Don't just record stock—understand your business dynamics. The portal automatically calculates your monthly revenue targets, warns you when overhead thresholds are exceeded, and flags your top-selling products.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-brandNavy border border-slate-800">
+                            <i class="fa-solid fa-lightbulb text-amber-400 text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Automated Fast-Mover Advisories</h4>
+                                <p class="text-sm text-slate-400">Identifies high-velocity items so you re-order before running out of stock and losing customers.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-brandNavy border border-slate-800">
+                            <i class="fa-solid fa-chart-pie text-brandCyan text-2xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Category & Volume Visual Analytics</h4>
+                                <p class="text-sm text-slate-400">Visual donut charts and bar graphs display stock distribution across provisions, clothing, stationery, hardware, and electronics.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 reveal">
+                    <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-700">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Advisory & Profit Target Insights</p>
+                        <img src="More stock 1.png" alt="System Advisory & Revenue Insights" class="previewable-img rounded-xl border border-slate-800 w-full object-cover">
+                    </div>
+                    <div class="glow-card tilt-card bg-brandNavy p-4 rounded-2xl border border-slate-700">
+                        <p class="text-xs font-semibold text-slate-400 mb-2 text-center uppercase">Visual Donut & Bar Charts</p>
+                        <img src="More stock 2.png" alt="Visual Stock Analytics and Charts" class="previewable-img rounded-xl border border-slate-800 w-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-brandNavy via-brandDark to-brandNavy border-t border-slate-800 text-center">
+        <div class="max-w-4xl mx-auto px-4 reveal">
+            <span class="text-brandCyan font-bold uppercase tracking-wider text-sm">Take Full Control Today</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2">Ready to Eliminate Inventory Losses & Streamline Sales?</h2>
+            <p class="mt-4 text-slate-300 text-lg">
+                Get a custom stock and inventory portal configured specifically for your school store, wholesale depot, or retail outlet.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2348147115078?text=Hello%20TechPal,%20I%20want%20to%20deploy%20the%20Stock%20and%20Inventory%20Portal" target="_blank" class="bg-brandCyan hover:bg-brandCyanHover text-brandDark font-extrabold px-8 py-4 rounded-xl shadow-xl transition flex items-center gap-3 text-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Get Started on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brandDark py-10 border-t border-slate-800 text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="techpal-logo.png" alt="TechPal Logo" class="h-12 w-auto object-contain">
+                <span>&copy; TechPal Solutions. All rights reserved.</span>
+            </div>
+            <div>
+                <p>Smart Stock & Inventory Ledger System</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Image Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <button id="close-modal" class="absolute top-5 right-6 text-slate-300 hover:text-brandCyan text-4xl font-bold focus:outline-none transition">
+            &times;
+        </button>
+        <img id="modal-img" src="" alt="Enlarged Preview" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-slate-700">
+    </div>
+
+    <!-- Interactive Scripts -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const imageModal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeModal = document.getElementById('close-modal');
+
+        document.querySelectorAll('.previewable-img').forEach(img => {
+            img.classList.add('cursor-pointer', 'hover:opacity-90', 'transition', 'hover:scale-[1.02]');
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                imageModal.classList.remove('hidden');
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            imageModal.classList.add('hidden');
+        });
+
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                imageModal.classList.add('hidden');
+            }
+        });
+
+        document.querySelectorAll('.glow-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
+</body>
+</html>
